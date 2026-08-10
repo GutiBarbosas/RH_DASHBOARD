@@ -1,0 +1,63 @@
+<!--
+  Biblioteca de ícones do Portal de RH.
+  ----------------------------------------------------------------------------
+  Este arquivo é uma referência/reserva de ícones em formato <symbol>, para uso
+  futuro com <use href="assets/icons/icons.svg#icon-nome">. Atualmente, os
+  ícones do menu são renderizados inline via js/script.js (objeto ICONS) para
+  evitar dependência de fetch em ambientes sem servidor (ex: abrir o index.html
+  localmente via file://, o que bloqueia XHR/fetch entre arquivos por CORS).
+
+  Ao publicar no GitHub Pages (ambiente com http/https), é possível migrar
+  para <use> sem restrição alguma — este sprite já está pronto para isso.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+  <symbol id="icon-dashboard" viewBox="0 0 24 24" fill="none">
+    <path d="M4 13H10V4H4V13ZM4 20H10V15H4V20ZM12 20H20V11H12V20ZM12 4V9H20V4H12Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-admissoes" viewBox="0 0 24 24" fill="none">
+    <path d="M16 21V19C16 16.7909 14.2091 15 12 15H6C3.79086 15 2 16.7909 2 19V21M23 21V19C23 17.1362 21.7252 15.5701 20 15.126M16 3.13C17.7252 3.5701 19 5.13616 19 7C19 8.86384 17.7252 10.4299 16 10.87M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-desligamentos" viewBox="0 0 24 24" fill="none">
+    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-rescisoes" viewBox="0 0 24 24" fill="none">
+    <path d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-ferias" viewBox="0 0 24 24" fill="none">
+    <path d="M12 3V5M12 19V21M5 12H3M21 12H19M18.36 18.36L16.95 16.95M18.36 5.64L16.95 7.05M5.64 18.36L7.05 16.95M5.64 5.64L7.05 7.05M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-banco-horas" viewBox="0 0 24 24" fill="none">
+    <path d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-turnover" viewBox="0 0 24 24" fill="none">
+    <path d="M17 2L21 6L17 10M3 12V10C3 8.93913 3.42143 7.92172 4.17157 7.17157C4.92172 6.42143 5.93913 6 7 6H21M7 22L3 18L7 14M21 12V14C21 15.0609 20.5786 16.0783 19.8284 16.8284C19.0783 17.5786 18.0609 18 17 18H3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-absenteismo" viewBox="0 0 24 24" fill="none">
+    <path d="M8 2V5M16 2V5M3.5 9H20.5M5 4H19C20.1046 4 21 4.89543 21 6V20C21 21.1046 20.1046 22 19 22H5C3.89543 22 3 21.1046 3 20V6C3 4.89543 3.89543 4 5 4ZM12 12L9 15M9 12L12 15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-treinamentos" viewBox="0 0 24 24" fill="none">
+    <path d="M12 14L3 9L12 4L21 9L12 14ZM12 14V20M5 11V16.5C5 16.5 7.5 19 12 19C16.5 19 19 16.5 19 16.5V11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-indicadores-cd" viewBox="0 0 24 24" fill="none">
+    <path d="M3 3V21H21M7 15L11 11L14 14L20 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-auditorias" viewBox="0 0 24 24" fill="none">
+    <path d="M11 3C15.4183 3 19 6.58172 19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3ZM21 21L16.65 16.65" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-documentos" viewBox="0 0 24 24" fill="none">
+    <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2ZM14 2V8H20M9 13H15M9 17H15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+</svg>
