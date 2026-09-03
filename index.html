@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de RH · Rede de Farmácias</title>
+  <meta name="description" content="Portal de RH - Dashboard Executivo, Admissões, Desligamentos e Controle de Rescisões">
+
+  <!-- Tipografia: Inter (UI) + JetBrains Mono (dados/números) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Chart.js (usado futuramente pelo módulo de gráficos) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js" defer></script>
+</head>
+<body>
+
+  <!-- ============================================================
+       SPRITE DE ÍCONES (carregado e injetado via fetch em script.js)
+       Ver: assets/icons/icons.svg
+  ============================================================= -->
+  <div id="icon-sprite-mount" hidden aria-hidden="true"></div>
+
+  <!-- ============================================================
+       TELA DE CARREGAMENTO INICIAL
+       Visível apenas até a primeira carga de dados terminar (ver
+       hideLoadingScreen() em js/script.js) — depois disso é removida
+       do DOM com uma transição suave (fade + leve escala).
+  ============================================================= -->
+  <div id="appLoadingScreen" class="app-loading" role="status" aria-live="polite">
+    <div class="app-loading__mark">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L3 6.5V12C3 17 6.7 21.2 12 22.5C17.3 21.2 21 17 21 12V6.5L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M9 12.2L11 14.2L15.2 9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="app-loading__title">Portal RH</div>
+    <div class="spinner app-loading__spinner"></div>
+    <p class="app-loading__text">Carregando dados da rede…</p>
+  </div>
+
+  <div class="app-shell">
+
+    <!-- ============================================================
+         SIDEBAR / MENU LATERAL
+    ============================================================= -->
+    <aside class="sidebar" id="sidebar" data-collapsed="false">
+      <div class="sidebar__brand">
+        <div class="sidebar__brand-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L3 6.5V12C3 17 6.7 21.2 12 22.5C17.3 21.2 21 17 21 12V6.5L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M9 12.2L11 14.2L15.2 9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="sidebar__brand-text">
+          <span class="sidebar__brand-title">Portal RH</span>
+          <span class="sidebar__brand-subtitle">Rede de Farmácias</span>
+        </div>
+        <button class="sidebar__collapse-btn" id="sidebarCollapseBtn" type="button" aria-label="Recolher menu">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- A navegação completa (itens ativos + "em breve") é renderizada
+           dinamicamente pelo script.js a partir do MODULE_REGISTRY,
+           permitindo adicionar novos módulos sem editar este HTML. -->
+      <nav class="sidebar__nav" id="sidebarNav" aria-label="Navegação principal">
+        <!-- injetado via JS -->
+      </nav>
+
+      <div class="sidebar__footer">
+        <div class="sidebar__sync-status" id="syncStatus" title="Status da integração de dados">
+          <span class="status-dot status-dot--offline" id="syncStatusDot"></span>
+          <span class="sidebar__footer-text">Dados locais (offline)</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Overlay usado no modo mobile quando o menu está aberto -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ============================================================
+         CONTEÚDO PRINCIPAL
+    ============================================================= -->
+    <div class="app-main">
+
+      <!-- ---------------- CABEÇALHO ---------------- -->
+      <header class="topbar">
+        <div class="topbar__left">
+          <button class="topbar__menu-btn" id="mobileMenuBtn" type="button" aria-label="Abrir menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <div class="topbar__title-group">
+            <nav class="breadcrumb" id="breadcrumb" aria-label="Localização atual">
+              <span class="breadcrumb__item">Portal RH</span>
+            </nav>
+            <h1 class="topbar__title" id="pageTitle">Dashboard Executivo</h1>
+          </div>
+        </div>
+
+        <div class="topbar__right">
+          <div class="topbar__updated" id="lastUpdated">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg>
+            <span id="lastUpdatedText">Carregando dados…</span>
+          </div>
+
+          <button class="refresh-btn" id="refreshDataBtn" type="button" aria-label="Atualizar dados">
+            <span class="refresh-btn__icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 12A9 9 0 1 1 18.5 5.5M21 4V9H16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>Atualizar dados</span>
+          </button>
+
+          <button class="topbar__icon-btn" type="button" aria-label="Notificações">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 1 0 6 8C6 15 3 17 3 17H21S18 15 18 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M13.7 21A2 2 0 0 1 10.3 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+
+          <div class="topbar__user">
+            <div class="topbar__avatar">RH</div>
+            <div class="topbar__user-info">
+              <span class="topbar__user-name">Equipe de RH</span>
+              <span class="topbar__user-role">Administrador</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ---------------- ÁREA DE CONTEÚDO (rotas/módulos) ---------------- -->
+      <main class="content" id="content">
+        <!-- O conteúdo de cada módulo é renderizado dinamicamente pelo
+             router em script.js dentro de <section class="view" data-view="...">.
+             Isso mantém index.html estável conforme novos módulos entram. -->
+        <div class="content__loading" id="contentLoading">
+          <div class="spinner"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       TEMPLATES (usados pelo JS para montar componentes repetíveis)
+  ============================================================= -->
+  <template id="tpl-kpi-card">
+    <article class="kpi-card">
+      <div class="kpi-card__icon"></div>
+      <div class="kpi-card__body">
+        <span class="kpi-card__label"></span>
+        <strong class="kpi-card__value"></strong>
+        <span class="kpi-card__delta"></span>
+      </div>
+    </article>
+  </template>
+
+  <template id="tpl-chart-placeholder">
+    <div class="chart-card">
+      <div class="chart-card__header">
+        <h3 class="chart-card__title"></h3>
+        <span class="chart-card__badge">Em preparação</span>
+      </div>
+      <div class="chart-card__body chart-placeholder">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M4 20V10M10 20V4M16 20V14M22 20V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p>O gráfico será renderizado aqui após a integração de dados.</p>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-empty-table">
+    <div class="table-empty">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 7H21M3 12H21M3 17H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <p>Nenhum dado carregado ainda.</p>
+      <span>A integração com a planilha será configurada em breve.</span>
+    </div>
+  </template>
+
+  <template id="tpl-soon-view">
+    <div class="soon-view">
+      <div class="soon-view__icon"></div>
+      <h2 class="soon-view__title"></h2>
+      <p class="soon-view__text">Este módulo está planejado para uma próxima etapa do Portal de RH.</p>
+    </div>
+  </template>
+
+  <!-- ============================================================
+       SCRIPTS (ordem importa: utils → dados → filtros → gráficos → app)
+  ============================================================= -->
+  <script src="js/utils.js"></script>
+  <script src="js/googleSheets.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
